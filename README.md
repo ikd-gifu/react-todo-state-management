@@ -1,3 +1,21 @@
+# react-frontend-output-v1
+Reactを用いたTodoアプリ
+
+## 1. 環境構築
+### 1-1. ライブラリ インストール
+```
+npm install
+または
+yarn
+```
+
+### 1-2. アプリケーション実行
+```
+npm run dev
+または
+yarn dev
+```
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
