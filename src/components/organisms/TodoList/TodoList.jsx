@@ -3,7 +3,7 @@ import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./style.module.css";
 
-export const TodoList = ({ todoList }) => {
+export const TodoList = ({ todoList, handleDeleteTodo }) => {
   return (
     <div className={styles.container}>
       {todoList.length === 0 ? (
@@ -11,10 +11,15 @@ export const TodoList = ({ todoList }) => {
       ) : (
         <ul className={styles.list}>
           {todoList.map((todo) => (
-            <li key={todo.id} className={styles.item}>
-              <span className={styles.title}>{todo.title}</span>
+            <li key={todo.id} className={styles.todo}>
+              <span className={styles.task}>{todo.title}</span>
+              {/* svg要素にcssを当てるためにdivで囲む */}
               <div className={styles.far}>
-                <FontAwesomeIcon icon={faTrashAlt} />
+                {/* アロー関数で「クロージャ」を作り、クリック時に実行される関数を登録。引数にTodoのidとtitleを渡す */}
+                <FontAwesomeIcon
+                  icon={faTrashAlt}
+                  onClick={() => handleDeleteTodo(todo.id, todo.title)}
+                />
               </div>
             </li>
           ))}
