@@ -17,3 +17,6 @@ export const INITIAL_TODOS = [
     title: "状態管理を実装する",
   }
 ];
+
+// 新規作成時の重複しないIDの初期値
+export const INITIAL_UNIQUE_ID = INITIAL_TODOS.length;
