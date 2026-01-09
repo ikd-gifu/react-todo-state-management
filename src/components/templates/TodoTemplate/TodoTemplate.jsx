@@ -1,9 +1,10 @@
 // 単一責任	Template = ロジック・状態管理、Organisms = レイアウト、Atoms: 純粋なUI部品
 // Container/Presentational パターンとも呼ばれる
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import styles from "./style.module.css";
 import { AddTodo, TodoList } from "../../organisms/";
 import { INITIAL_TODOS, INITIAL_UNIQUE_ID } from "../../../constants/data";
+import { InputForm } from "../../atoms";
 
 // 全ての状態を管理
 // originTodoListは複数のコンポーネントで使われる
@@ -17,6 +18,16 @@ export const TodoTemplate = () => {
   // 重複しない ID を生成
   // const [uniqueId, setUniqueId] = useState(INITIAL_TODOS.length + 1); データはdata.jsで一元管理
   const [uniqueId, setUniqueId] = useState(INITIAL_UNIQUE_ID);
+  // 検索用のキーワードの状態管理 初期値を空文字に設定
+  const [searchInputValue, setSearchInputValue] = useState("");
+  // 検索用の入力値に基づいて表示するTodoリストを絞り込む
+  const showTodoList = useMemo(() => {
+    return originalTodoList.filter((todo) =>
+      // 検索キーワードに前方一致したTodoだけを一覧表示
+      todo.title.toLowerCase().startsWith(searchInputValue.toLowerCase())
+    );
+  // originalTodoListかsearchInputValueが変化したときに再計算
+  }, [originalTodoList, searchInputValue]);
 
     /**
    * addInputValueの変更処理 ユーザーの入力を受け取る
@@ -48,6 +59,7 @@ export const TodoTemplate = () => {
       setOriginalTodoList(newTodoList);
 
       // nextIdを更新
+      // DBの自動採番のイメージ
       setUniqueId(nextId);
       // 入力フォームを空にする
       setAddInputValue("");
@@ -83,11 +95,18 @@ export const TodoTemplate = () => {
         />
       </section>
       {/* Todo検索フォームエリア */}
+      <section className={styles.common}>
+        <InputForm
+          inputValue={searchInputValue}
+          placeholder="TODOを検索"
+          handleChangeValue={(e) => setSearchInputValue(e.target.value)}
+        />
+      </section>
       {/* Todoリスト一覧表示 */}
       <section className={styles.common}>
         {/* 状態、関数を渡す */}
         <TodoList
-          todoList={originalTodoList}
+          todoList={showTodoList}
           handleDeleteTodo={handleDeleteTodo}
         />
       </section>
