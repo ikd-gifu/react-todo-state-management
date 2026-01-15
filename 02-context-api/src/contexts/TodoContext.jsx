@@ -17,6 +17,7 @@ export { TodoContext };
  * @param {React.ReactNode} props.children - ラップするコンポーネント
  */
 export const TodoProvider = ({ children }) => {
+  // カスタムフックから状態と関数を取得し、Contextで提供する
   const {
     showTodoList, // 状態
     addInputValue,

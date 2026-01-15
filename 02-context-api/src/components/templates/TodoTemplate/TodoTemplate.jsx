@@ -21,6 +21,7 @@ export const TodoTemplate = () => {
   } = useTodoContext();
 
   return (
+    // 各コンポーネントにpropsとして渡す
     <div className={styles.container}>
       <h1 className={styles.title}>Todo アプリ</h1>
       {/* Todo追加エリア */}
